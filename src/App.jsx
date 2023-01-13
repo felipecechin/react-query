@@ -1,7 +1,8 @@
-import axios from "axios";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-
 import "./App.css";
+
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
+import axios from "axios";
 
 function App() {
   const queryClient = useQueryClient();
@@ -11,12 +12,12 @@ function App() {
   );
 
   const mutation = useMutation({
-    mutationFn: ({ todoId, completed }) => {
-      return axios
+    mutationFn: async ({ todoId, completed }) => {
+      const response = await axios
         .patch(`http://localhost:8080/todos/${todoId}`, {
           completed,
-        })
-        .then((response) => response.data);
+        });
+      return response.data;
     },
     onSuccess: (data) => {
       queryClient.setQueryData("todos", (currentData) =>
@@ -30,6 +31,9 @@ function App() {
 
   if (isLoading) {
     return <div className="loading">Carregando...</div>;
+  }
+  if (mutation.isLoading) {
+    return <div className="loading">Carregando mudança de dados...</div>;
   }
 
   if (error) {
