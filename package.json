@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:db": "json-server --watch db.json --port 8080",
+    "start:db": "json-server --watch db.json --port 8080 --delay 4000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -1,9 +1,10 @@
-import {QueryClient, QueryClientProvider} from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from 'react-query/devtools';
 
-import App from "./App.jsx";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
+import ConditionalQuery from "./ConditionalQuery";
 
 const queryClient = new QueryClient();
 
@@ -11,7 +12,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-    <App />
+      <ConditionalQuery />
+      <ReactQueryDevtools
+        initialIsOpen={false}
+        position='bottom-right'
+      />
     </QueryClientProvider>
   </React.StrictMode>
 );
