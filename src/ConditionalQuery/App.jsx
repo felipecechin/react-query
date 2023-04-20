@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import axios from "axios";
 
@@ -10,7 +10,7 @@ function App({
 }) {
   const queryClient = useQueryClient();
 
-  const { data, isLoading, error, isFetching } = useQuery("todos", () =>
+  const { data, isLoading, error, isFetching } = useQuery(["todos"], () =>
     axios.get("http://localhost:8080/todos").then((response) => response.data),
     {
       staleTime: 1000 * 10,
