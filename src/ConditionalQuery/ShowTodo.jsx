@@ -5,7 +5,7 @@ export function ShowTodo() {
   const { data, isLoading } = useQuery(["todos", 1], () =>
   axios.get("http://localhost:8080/todos/1").then((response) => response.data),
     {
-      staleTime: 1000 * 5,
+      staleTime: 1000 * 2,
       cacheTime: 1000 * 5,
     }
   );

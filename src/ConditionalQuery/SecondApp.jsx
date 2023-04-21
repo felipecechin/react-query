@@ -9,9 +9,6 @@ function SecondApp() {
 
   const { data, isLoading, error } = useQuery(["todos"], () =>
     axios.get("http://localhost:8080/todos").then((response) => response.data),
-    {
-      staleTime: 1000 * 10,
-    }
   );
 
   const mutation = useMutation({

@@ -1,42 +1,43 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
+import Cookies from 'js-cookie'
 import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import ConditionalQuery from "./ConditionalQuery";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
-import { persistQueryClient, persistQueryClientSave } from "@tanstack/react-query-persist-client";
+import { persistQueryClient } from "@tanstack/react-query-persist-client";
+import { decryptData, encryptData } from "./encryptAndDecryptData";
 
 const queryClient = new QueryClient();
 
-const localStoragePersister = createSyncStoragePersister({ storage: window.localStorage })
+const localStoragePersister = createSyncStoragePersister({
+  storage: window.localStorage,
+  serialize: encryptData,
+  deserialize: decryptData,
+  key: 'react-query-persist'
+})
 
 persistQueryClient({
   queryClient,
   persister: localStoragePersister,
   maxAge: 1000 * 60 * 60 * 24, // 24 hours
-  buster: '',
-  hydrateOptions: undefined,
+  buster: Cookies.get('auth-token') ?? 'no-auth-token',
+  hydrateOptions: {
+    defaultOptions: {
+      queries: {
+        cacheTime: Infinity
+      }
+    }
+  },
   dehydrateOptions: {
     shouldDehydrateQuery: ({ queryKey }) => {
       console.log(queryKey)
       return queryKey.length === 1 && queryKey[0] === 'todos'
     }
-  },
+  }
 })
 
-persistQueryClientSave({
-  queryClient,
-  persister: localStoragePersister,
-  buster: '',
-  dehydrateOptions: {
-    shouldDehydrateQuery: ({ queryKey }) => {
-      console.log(queryKey)
-      return queryKey.length === 1 && queryKey[0] === 'todos'
-    }
-  },
-})
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

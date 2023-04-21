@@ -13,7 +13,7 @@ function App({
   const { data, isLoading, error, isFetching } = useQuery(["todos"], () =>
     axios.get("http://localhost:8080/todos").then((response) => response.data),
     {
-      staleTime: 1000 * 10,
+      staleTime: Infinity
     }
   );
 
