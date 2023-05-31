@@ -20,7 +20,7 @@ function App() {
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.setQueryData("todos", (currentData) =>
+      queryClient.setQueryData(["todos"], (currentData) =>
         currentData.map((todo) => (todo.id === data.id ? data : todo))
       );
     },
