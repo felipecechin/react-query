@@ -26,7 +26,7 @@ function App({
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.setQueryData("todos", (currentData) =>
+      queryClient.setQueryData(["todos"], (currentData) =>
         currentData.map((todo) => (todo.id === data.id ? data : todo))
       );
     },
@@ -80,7 +80,7 @@ function App({
       </button>
       <button
         type="button"
-        onClick={() => queryClient.invalidateQueries("todos")}
+        onClick={() => queryClient.invalidateQueries(["todos"])}
       >
         invalidar cache
       </button>
