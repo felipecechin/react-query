@@ -6,7 +6,7 @@ import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import ConditionalQuery from "./ConditionalQuery";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
-import { persistQueryClient, persistQueryClientSave } from "@tanstack/react-query-persist-client";
+import { persistQueryClient } from "@tanstack/react-query-persist-client";
 
 const queryClient = new QueryClient();
 
@@ -18,18 +18,6 @@ persistQueryClient({
   maxAge: 1000 * 60 * 60 * 24, // 24 hours
   buster: '',
   hydrateOptions: undefined,
-  dehydrateOptions: {
-    shouldDehydrateQuery: ({ queryKey }) => {
-      console.log(queryKey)
-      return queryKey.length === 1 && queryKey[0] === 'todos'
-    }
-  },
-})
-
-persistQueryClientSave({
-  queryClient,
-  persister: localStoragePersister,
-  buster: '',
   dehydrateOptions: {
     shouldDehydrateQuery: ({ queryKey }) => {
       console.log(queryKey)
